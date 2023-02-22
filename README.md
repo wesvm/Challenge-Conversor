@@ -13,4 +13,4 @@ Crea tu propio conversor.
 - y mas aun en desarrollo..
 
 
-by [Walter Vilca](https://www.google.com)
+by [Walter Vilca](https://app.aluracursos.com/user/samuelwalter2001)
