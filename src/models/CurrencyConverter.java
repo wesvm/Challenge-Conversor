@@ -1,25 +1,48 @@
 package models;
+import models.ConfigReader.ConfigReader;
 import org.json.JSONObject;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DecimalFormat;
 
 public class CurrencyConverter {
+    static ConfigReader config;
 
-    private static final String apiUrl = "https://openexchangerates.org/api/latest.json?app_id=";
-    private static final String appId = "271ba31646d44a1f81835ea0d3fd4076";
-
-    private static JSONObject getRates(){
-
+    static {
         try {
-            URL url = new URL(apiUrl + appId);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            config = new ConfigReader();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-            conn.setRequestMethod("GET");
+    private static final String apiUrl = config.getApiUrl();
+    private static final String appId = config.getAppId();
 
-            BufferedReader readerResponse = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+    private static HttpURLConnection getApiConnection() throws IOException{
+        URL url = new URL(apiUrl + appId);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+        conn.setRequestMethod("GET");
+        int status = conn.getResponseCode();
+        if (status != 200){
+            throw new IOException("Error connect api. Response code: " + status);
+        }
+
+        return conn;
+    }
+
+    private static JSONObject getRates() throws IOException{
+        HttpURLConnection conn = null;
+        try {
+            conn = getApiConnection();
+
+            BufferedReader readerResponse = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream())
+            );
             StringBuilder response = new StringBuilder();
 
             String readLine;
@@ -31,13 +54,17 @@ public class CurrencyConverter {
             JSONObject json = new JSONObject(response.toString());
             return json.getJSONObject("rates");
 
-        }catch (Exception e){
+        }catch (IOException e){
             e.printStackTrace();
+            throw new IOException("Error retrieving rates from API " + e + " ");
+        }finally {
+            if (conn != null){
+                conn.disconnect();
+            }
         }
-        return null;
     }
 
-    private static Object ConvertedAmount(double amount, String from, String to) {
+    private static Object convertedAmount(double amount, String from, String to) throws IOException {
         JSONObject rates = getRates();
 
         from = from.toUpperCase();
@@ -51,29 +78,14 @@ public class CurrencyConverter {
 
     }
 
-    public String getStringConvertedAmount(double amount, String from, String to){
-        try {
-            double convertedAmount = (double) ConvertedAmount(amount, from, to);
+    public String getStringConvertedAmount(double amount, String from, String to) throws IOException{
 
-            DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        double convertedAmount = (double) convertedAmount(amount, from, to);
 
-            return decimalFormat.format(convertedAmount);
-        }catch (Exception e){
-            return null;
-        }
-    }
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
-    public double getDoubleConvertedAmount(double amount, String from, String to){
-        try {
-            double convertedAmount = (double) ConvertedAmount(amount, from, to);
+        return decimalFormat.format(convertedAmount);
 
-            DecimalFormat decimalFormat = new DecimalFormat("#.##");
-
-            return Double.parseDouble(decimalFormat.format(convertedAmount));
-
-        }catch (Exception e){
-            return 0;
-        }
     }
 
 }

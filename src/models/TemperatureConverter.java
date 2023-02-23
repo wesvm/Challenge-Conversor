@@ -29,20 +29,15 @@ public class TemperatureConverter {
 
 
     public String getTemperatureConverter(String op, double value){
-        try{
-            return switch (op) {
-                case "CelsiusToFahrenheit" -> Double.toString(CelsiusToFahrenheit(value));
-                case "CelsiusToKelvin" -> Double.toString(CelsiusToKelvin(value));
-                case "KelvinToCelsius" -> Double.toString(KelvinToCelsius(value));
-                case "KelvinToFahrenheit" -> Double.toString(KelvinToFahrenheit(value));
-                case "FahrenheitToCelsius" -> Double.toString(FahrenheitToCelsius(value));
-                case "FahrenheitToKelvin" -> Double.toString(FahrenheitToKelvin(value));
-                default -> Double.toString(value);
-            };
-
-        }catch (Exception e){
-            return null;
-        }
+        return switch (op) {
+            case "CelsiusToFahrenheit" -> Double.toString(CelsiusToFahrenheit(value));
+            case "CelsiusToKelvin" -> Double.toString(CelsiusToKelvin(value));
+            case "KelvinToCelsius" -> Double.toString(KelvinToCelsius(value));
+            case "KelvinToFahrenheit" -> Double.toString(KelvinToFahrenheit(value));
+            case "FahrenheitToCelsius" -> Double.toString(FahrenheitToCelsius(value));
+            case "FahrenheitToKelvin" -> Double.toString(FahrenheitToKelvin(value));
+            default -> Double.toString(value);
+        };
     }
 
 }

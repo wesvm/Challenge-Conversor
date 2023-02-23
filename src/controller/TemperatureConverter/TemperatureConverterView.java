@@ -42,7 +42,7 @@ public class TemperatureConverterView extends TemperatureConverter {
         panel.add(button);
 
         JLabel lblResult = new JLabel("");
-        lblResult.setBounds(20, 140, 200, 25);
+        lblResult.setBounds(20, 140, 500, 25);
         panel.add(lblResult);
 
         button.addActionListener(e -> {
@@ -56,9 +56,10 @@ public class TemperatureConverterView extends TemperatureConverter {
 
                 lblResult.setText(value + " " + from + " = " + result + " " + to);
 
-
             }catch (Exception ex){
-                lblResult.setText("Error..");
+                txtAmount.setText("");
+                lblResult.setText("");
+                JOptionPane.showMessageDialog(panel,"Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
