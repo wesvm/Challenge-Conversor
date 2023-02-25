@@ -10,7 +10,11 @@ Crea tu propio conversor.
 
 - `Funcionalidad 1`: Conversor de Monedas
 - `Funcionalidad 2`: Conversor de Temperaturas
-- y mas aun en desarrollo..
+
+## Dependencias
+
+- [JSON-java](https://github.com/stleary/JSON-java) - Utilizado para la manipulación de 
+objetos JSON en el proyecto.
 
 
 by [Walter Vilca](https://app.aluracursos.com/user/samuelwalter2001)

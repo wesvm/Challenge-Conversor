@@ -16,8 +16,5 @@ public class ConfigReader {
 
     public String getApiUrl(){return properties.getProperty("urlApi");}
     public String getAppId(){return properties.getProperty("appId");}
-    public String getUrl(){
-        return properties.getProperty("url");
-    }
 
 }

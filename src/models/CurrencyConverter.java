@@ -81,9 +81,7 @@ public class CurrencyConverter {
     public String getStringConvertedAmount(double amount, String from, String to) throws IOException{
 
         double convertedAmount = (double) convertedAmount(amount, from, to);
-
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
-
         return decimalFormat.format(convertedAmount);
 
     }

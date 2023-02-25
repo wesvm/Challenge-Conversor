@@ -2,10 +2,7 @@ package models;
 
 public class TemperatureConverter {
 
-
-    private double CelsiusToFahrenheit(double value){
-        return value * 9/5 + 32;
-    }
+    private double CelsiusToFahrenheit(double value){ return value * 9/5 + 32; }
 
     private double CelsiusToKelvin(double value){
         return value + 273.15;
@@ -15,9 +12,7 @@ public class TemperatureConverter {
         return value - 273.15;
     }
 
-    private double KelvinToFahrenheit(double value){
-        return (value - 273.15) * 9/5 + 32;
-    }
+    private double KelvinToFahrenheit(double value){ return (value - 273.15) * 9/5 + 32;}
 
     private double FahrenheitToCelsius(double value){
         return (value - 32) * 5/9;
@@ -26,7 +21,6 @@ public class TemperatureConverter {
     private double FahrenheitToKelvin(double value){
         return (value - 32) * 5/9 + 273.15;
     }
-
 
     public String getTemperatureConverter(String op, double value){
         return switch (op) {

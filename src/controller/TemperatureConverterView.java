@@ -1,17 +1,17 @@
-package controller.CurrencyConverter;
-import models.CurrencyConverter;
+package controller;
+
+import models.TemperatureConverter;
 
 import javax.swing.*;
 
-public class CurrencyConverterView extends CurrencyConverter {
-
+public class TemperatureConverterView extends TemperatureConverter {
     private final JPanel panel;
-    public CurrencyConverterView() {
 
+    public TemperatureConverterView(){
         panel = new JPanel();
         panel.setLayout(null);
 
-        JLabel lblAmount = new JLabel("Monto a convertir: ");
+        JLabel lblAmount = new JLabel("Temperatura a convertir: ");
         lblAmount.setBounds(20, 20 , 150, 25);
         panel.add(lblAmount);
 
@@ -19,22 +19,22 @@ public class CurrencyConverterView extends CurrencyConverter {
         txtAmount.setBounds(200, 20, 200, 25);
         panel.add(txtAmount);
 
-        String[] currencies = {"USD", "EUR", "GBP", "JPY", "KRW", "PEN"};
+        String[] grades = {"Celsius", "Kelvin", "Fahrenheit"};
 
         JLabel lblFromSelection = new JLabel("From: ");
         lblFromSelection.setBounds(40,60,120,25);
         panel.add(lblFromSelection);
-        JComboBox<String> fromSelection = new JComboBox<>(currencies);
+        JComboBox<String> fromSelection = new JComboBox<>(grades);
         fromSelection.setBounds(80,60,120,25);
-        fromSelection.setSelectedItem("PEN");
+        fromSelection.setSelectedItem("Celsius");
         panel.add(fromSelection);
 
         JLabel lblToSelection = new JLabel("To: ");
         lblToSelection.setBounds(220,60,120,25);
         panel.add(lblToSelection);
-        JComboBox<String> toSelection = new JComboBox<>(currencies);
+        JComboBox<String> toSelection = new JComboBox<>(grades);
         toSelection.setBounds(260,60,120,25);
-        toSelection.setSelectedItem("USD");
+        toSelection.setSelectedItem("Kelvin");
         panel.add(toSelection);
 
         JButton button = new JButton("Convertir");
@@ -42,18 +42,19 @@ public class CurrencyConverterView extends CurrencyConverter {
         panel.add(button);
 
         JLabel lblResult = new JLabel("");
-        lblResult.setBounds(20, 140, 300, 25);
+        lblResult.setBounds(20, 140, 500, 25);
         panel.add(lblResult);
 
         button.addActionListener(e -> {
             try {
-                double amount = Double.parseDouble(txtAmount.getText());
+                double value = Double.parseDouble(txtAmount.getText());
                 String from = (String) fromSelection.getSelectedItem();
                 String to = (String) toSelection.getSelectedItem();
+                String op = from + "To" + to;
 
-                String result = getStringConvertedAmount(amount, from, to);
+                String result = getTemperatureConverter(op ,value);
 
-                lblResult.setText(amount + " " + from + " = " + result + " " + to);
+                lblResult.setText(value + " " + from + " = " + result + " " + to);
 
             }catch (Exception ex){
                 txtAmount.setText("");
@@ -64,7 +65,7 @@ public class CurrencyConverterView extends CurrencyConverter {
 
     }
 
-    public JPanel getCurrencyConverterView(){
+    public JPanel getTemperatureConverterView(){
         return panel;
     }
 
