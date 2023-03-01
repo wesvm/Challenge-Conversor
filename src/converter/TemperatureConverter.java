@@ -1,8 +1,8 @@
-package models;
+package converter;
 
 public class TemperatureConverter {
 
-    private double CelsiusToFahrenheit(double value){ return value * 9/5 + 32; }
+    private double CelsiusToFahrenheit(double value){ return value * 9/5 + 32;}
 
     private double CelsiusToKelvin(double value){
         return value + 273.15;

@@ -1,4 +1,4 @@
-package models.ConfigReader;
+package converter.ConfigReader;
 
 public class ComboBoxItem {
 

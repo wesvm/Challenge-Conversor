@@ -1,5 +1,5 @@
-package models;
-import models.ConfigReader.ConfigReader;
+package converter;
+import converter.ConfigReader.ConfigReader;
 import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,7 +10,6 @@ import java.text.DecimalFormat;
 
 public class CurrencyConverter {
     static ConfigReader config;
-
     static {
         try {
             config = new ConfigReader();
@@ -18,7 +17,6 @@ public class CurrencyConverter {
             throw new RuntimeException(e);
         }
     }
-
     private static final String apiUrl = config.getApiUrl();
     private static final String appId = config.getAppId();
 
@@ -40,19 +38,20 @@ public class CurrencyConverter {
         try {
             conn = getApiConnection();
 
-            BufferedReader readerResponse = new BufferedReader(
+            try (BufferedReader readerResponse = new BufferedReader(
                     new InputStreamReader(conn.getInputStream())
-            );
-            StringBuilder response = new StringBuilder();
+            )) {
+                StringBuilder response = new StringBuilder(4096);
 
-            String readLine;
-            while ((readLine = readerResponse.readLine()) != null) {
-                response.append(readLine);
+                String readLine;
+                while ((readLine = readerResponse.readLine()) != null) {
+                    response.append(readLine);
+                }
+
+                JSONObject json = new JSONObject(response.toString());
+                return json.getJSONObject("rates");
+
             }
-            readerResponse.close();
-
-            JSONObject json = new JSONObject(response.toString());
-            return json.getJSONObject("rates");
 
         }catch (IOException e){
             e.printStackTrace();

@@ -1,18 +1,35 @@
-package controller;
-import models.ConfigReader.ComboBoxItem;
-import models.CurrencyConverter;
+package views.items;
+import converter.ConfigReader.ComboBoxItem;
+import converter.CurrencyConverter;
+import views.Home;
+
 import javax.swing.*;
+import java.awt.*;
 
 public class CurrencyConverterView extends CurrencyConverter {
 
-    private final JPanel panel;
+    private final JFrame frame;
     public CurrencyConverterView() {
 
-        panel = new JPanel();
+        frame = new JFrame("Challenge ONE Alura - Convertidor ");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(500,250);
+        frame.setLocationRelativeTo(null);
+        ImageIcon icon = new ImageIcon("src/assets/imgs/aluraicon.jpg");
+        frame.setIconImage(icon.getImage());
+
+        JPanel panel = new JPanel();
         panel.setLayout(null);
+
+        Color darkBlue = Color.decode("#0077be");
+        Color lightGray = Color.decode("#f5f5f5");
+        Color darkGray = Color.decode("#333333");
+
+        panel.setBackground(lightGray);
 
         JLabel lblAmount = new JLabel("Monto a convertir: ");
         lblAmount.setBounds(20, 20 , 150, 25);
+        lblAmount.setForeground(darkGray);
         panel.add(lblAmount);
 
         JTextField txtAmount = new JTextField();
@@ -20,38 +37,49 @@ public class CurrencyConverterView extends CurrencyConverter {
         panel.add(txtAmount);
 
         ComboBoxItem[] currencies = {
+                new ComboBoxItem("PEN", "Nuevos Soles"),
                 new ComboBoxItem("USD", "Dolares Americanos"),
                 new ComboBoxItem("EUR", "Euros"),
                 new ComboBoxItem("GBP", "Libras esterlinas"),
                 new ComboBoxItem("JPY", "Yen Japones"),
-                new ComboBoxItem("KRW", "Won Surcoreano"),
-                new ComboBoxItem("PEN", "Nuevos Soles")
+                new ComboBoxItem("KRW", "Won Surcoreano")
+
         };
 
         JLabel lblFromSelection = new JLabel("From: ");
         lblFromSelection.setBounds(40,60,120,25);
+        lblFromSelection.setForeground(darkGray);
         panel.add(lblFromSelection);
         JComboBox<ComboBoxItem> fromSelection = new JComboBox<>(currencies);
-        fromSelection.setBounds(80,60,120,25);
+        fromSelection.setBackground(lightGray);
+        fromSelection.setForeground(darkGray);
+        fromSelection.setBounds(80,60,150,25);
 
-        fromSelection.setSelectedItem(new ComboBoxItem("PEN", "Nuevos Soles"));
+        fromSelection.setSelectedItem(currencies[0]);
         panel.add(fromSelection);
 
         JLabel lblToSelection = new JLabel("To: ");
-        lblToSelection.setBounds(220,60,120,25);
+        lblToSelection.setBounds(240,60,120,25);
+        lblToSelection.setForeground(darkGray);
         panel.add(lblToSelection);
         JComboBox<ComboBoxItem> toSelection = new JComboBox<>(currencies);
-        toSelection.setBounds(260,60,120,25);
+        toSelection.setBackground(lightGray);
+        toSelection.setForeground(darkGray);
+        toSelection.setBounds(280,60,150,25);
 
-        toSelection.setSelectedItem(new ComboBoxItem("USD", "Dolares Americanos"));
+        toSelection.setSelectedItem(currencies[1]);
         panel.add(toSelection);
 
         JButton button = new JButton("Convertir");
-        button.setBounds(140, 100, 150, 25);
+        button.setBounds(80, 120, 150, 25);
+        button.setFont(new Font("Arial", Font.BOLD, 12));
+        button.setBackground(darkBlue);
+        button.setForeground(Color.white);
         panel.add(button);
 
         JLabel lblResult = new JLabel("");
-        lblResult.setBounds(20, 140, 300, 25);
+        lblResult.setBounds(20, 160, 300, 25);
+        lblResult.setForeground(darkGray);
         panel.add(lblResult);
 
         button.addActionListener(e -> {
@@ -64,6 +92,7 @@ public class CurrencyConverterView extends CurrencyConverter {
 
                 ComboBoxItem fromSelected = (ComboBoxItem) fromSelection.getSelectedItem();
                 ComboBoxItem toSelected = (ComboBoxItem) toSelection.getSelectedItem();
+
                 assert fromSelected != null;
                 assert toSelected != null;
 
@@ -71,7 +100,7 @@ public class CurrencyConverterView extends CurrencyConverter {
                 String to = toSelected.getKey();
 
                 String result = getStringConvertedAmount(amount, from, to);
-                lblResult.setText(amount + " " + from + " = " + result + " " + to);
+                lblResult.setText(  amount + " " + from + " = " + result + " " + to);
 
             }catch (Exception ex){
                 txtAmount.setText("");
@@ -80,10 +109,25 @@ public class CurrencyConverterView extends CurrencyConverter {
             }
         });
 
+        JButton bt = new JButton("Regresar");
+        bt.setBounds(250, 120, 150, 25);
+        bt.setFont(new Font("Arial", Font.BOLD, 12));
+        bt.setBackground(Color.RED);
+        bt.setForeground(Color.white);
+        panel.add(bt);
+
+        bt.addActionListener(e -> {
+            frame.dispose();
+            Home home = new Home();
+            home.displayHome();
+        });
+
+        frame.add(panel);
     }
 
-    public JPanel getCurrencyConverterView(){
-        return panel;
+    public JFrame getCurrencyConverterView(){
+        return frame;
     }
+
 
 }
